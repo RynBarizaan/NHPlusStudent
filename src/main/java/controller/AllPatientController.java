@@ -36,7 +36,7 @@ public class AllPatientController {
     private TableColumn<Patient, String> colRoom;
 
     @FXML
-    Button btnDelete;
+    Button btnLockPatient;
     @FXML
     Button btnAdd;
     @FXML
@@ -160,6 +160,11 @@ public class AllPatientController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void handleLockPatient() {
+
     }
 
     /**
