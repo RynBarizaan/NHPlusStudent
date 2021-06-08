@@ -34,7 +34,7 @@ public class PatientDAO extends DAOimp<Patient> {
 
     /**
      * generates a <code>select</code>-Statement for a given key
-     * @param key for which a specific SELECTis to be created
+     * @param key for which a specific SELECT is to be created
      * @return <code>String</code> with the generated SQL.
      */
     @Override
@@ -78,8 +78,8 @@ public class PatientDAO extends DAOimp<Patient> {
         while (result.next()) {
             LocalDate date = DateConverter.convertStringToLocalDate(result.getString(4));
             p = new Patient(result.getInt(1), result.getString(2),
-                    result.getString(3), date,
-                    result.getString(5), result.getString(6));
+                    result.getString(3), date, result.getString(5),
+                    result.getString(6));
             list.add(p);
         }
         return list;
