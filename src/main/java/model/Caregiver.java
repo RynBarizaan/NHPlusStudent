@@ -10,7 +10,6 @@ public class Caregiver extends Person{
     private long cid;
     private String telnumber;
     private boolean active;
-    private List<Treatment> allTreatments = new ArrayList<Treatment>();
 
     /**
      * constructs a caregiver from the given params.
@@ -58,10 +57,26 @@ public class Caregiver extends Person{
 
     /**
      *
+     * @return telephone number
+     */
+    public String getTelnumber() {
+        return telnumber;
+    }
+
+    /**
+     *
      * @param active set new activity state
      */
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    /**
+     *
+     * @return activity status
+     */
+    public boolean getActive() {
+        return active;
     }
 
     /**
