@@ -64,11 +64,9 @@ public class UserDAO extends DAOimp<User> {
      * @return Das Passwort passend zum Usernamen.
      * @throws SQLException
      */
-    public String getPasswordFromUsername(String username) throws SQLException {
-
+    public ResultSet getPasswordFromUsername(String username) throws SQLException {
         Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery(String.format("Select PASSWORT FROM USER WHERE username = '%s'", username));
-        rs.next();
-        return rs.getString("passwort");
+        return rs;
     }
 }
