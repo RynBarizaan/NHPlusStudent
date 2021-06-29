@@ -6,11 +6,12 @@ import java.time.LocalDate;
  * Patients live in a NURSING home and are treated by nurses.
  */
 
-public class LockedPatient extends Patient{
+public class LockedPatient extends Patient {
     private LocalDate toDeleteDate;
 
     /**
      * constructs a patient from the given params.
+     *
      * @param firstName
      * @param surname
      * @param dateOfBirth
@@ -26,6 +27,7 @@ public class LockedPatient extends Patient{
 
     /**
      * constructs a patient from the given params.
+     *
      * @param pid
      * @param firstName
      * @param surname
@@ -41,7 +43,6 @@ public class LockedPatient extends Patient{
     }
 
     /**
-     *
      * @return toDeleteDate
      */
 
@@ -50,7 +51,6 @@ public class LockedPatient extends Patient{
     }
 
     /**
-     *
      * @param toDeleteDate new deletion date
      */
 

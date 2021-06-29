@@ -1,6 +1,6 @@
 package model;
 
-public class User{
+public class User {
     private long caregiverID;
     private String username;
     private String password;
