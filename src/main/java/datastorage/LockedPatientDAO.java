@@ -25,7 +25,7 @@ public class LockedPatientDAO extends DAOimp<LockedPatient> {
      */
     @Override
     protected String getCreateStatementString(LockedPatient lockedpatient) {
-        return String.format("INSERT INTO lockedpatient (firstname, surname, dateOfBirth, carelevel, roomnumber, toDeleteDate) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')",
+        return String.format("INSERT INTO lockedpatient (PID,firstname, surname, dateOfBirth, carelevel, roomnumber, toDeleteDate) VALUES ('%d','%s', '%s', '%s', '%s', '%s', '%s')", lockedpatient.getPid(),
                 lockedpatient.getFirstName(), lockedpatient.getSurname(), lockedpatient.getDateOfBirth(), lockedpatient.getCareLevel(), lockedpatient.getRoomnumber(), lockedpatient.getToDeleteDate());
     }
 

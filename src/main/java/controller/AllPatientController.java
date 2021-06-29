@@ -1,5 +1,6 @@
 package controller;
 
+import datastorage.LockedPatientDAO;
 import datastorage.PatientDAO;
 import datastorage.TreatmentDAO;
 import javafx.collections.FXCollections;
@@ -8,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import model.LockedPatient;
 import model.Patient;
 import utils.DateConverter;
 import datastorage.DAOFactory;
@@ -53,6 +55,7 @@ public class AllPatientController {
 
     private ObservableList<Patient> tableviewContent = FXCollections.observableArrayList();
     private PatientDAO dao;
+    private LockedPatientDAO lockedDao;
 
     /**
      * Initializes the corresponding fields. Is called as soon as the corresponding FXML file is to be displayed.
@@ -163,8 +166,12 @@ public class AllPatientController {
     }
 
     @FXML
-    public void handleLockPatient() {
-
+    public void handleLockPatient() throws SQLException {
+        dao = DAOFactory.getDAOFactory().createPatientDAO();
+        lockedDao = DAOFactory.getDAOFactory().createLockedPatientDAO();
+        Patient selectedItem = this.tableView.getSelectionModel().getSelectedItem();
+        LockedPatient lockedPatient = new LockedPatient(selectedItem.getPid(), selectedItem.getFirstName(), selectedItem.getSurname(), DateConverter.convertStringToLocalDate(selectedItem.getDateOfBirth()), selectedItem.getCareLevel(), selectedItem.getRoomnumber(), LocalDate.now().plusYears(10));
+        lockedDao.create(lockedPatient);
     }
 
     /**

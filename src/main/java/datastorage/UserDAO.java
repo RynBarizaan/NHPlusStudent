@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAO extends DAOimp<User>{
+public class UserDAO extends DAOimp<User> {
 
     public UserDAO(Connection conn) {
         super(conn);
@@ -32,13 +32,13 @@ public class UserDAO extends DAOimp<User>{
     @Override
     protected User getInstanceFromResultSet(ResultSet result) throws SQLException {
         User u;
-        u = new User(result.getString(1), result.getString(2));
+        u = new User(result.getString(1), result.getString(2), result.getLong(3));
         return u;
     }
 
     @Override
     protected String getReadAllStatementString() {
-       return "SELECT * FROM USER";
+        return "SELECT * FROM USER";
     }
 
     @Override
@@ -53,24 +53,19 @@ public class UserDAO extends DAOimp<User>{
 
     @Override
     protected String getDeleteStatementString(long key) {
-
         return String.format("Delete FROM USER WHERE username = %d", key);
     }
 
     /**
      * Methode zum finden eines Passworts passend zu einem Usernamen
      *
-     * @param username
-     *       der Username für den das PAsswort gefunden werden soll
-     * @return
-     *      Das Passwort passend zum Usernamen.
+     * @param username der Username für den das PAsswort gefunden werden soll
+     * @return Das Passwort passend zum Usernamen.
      * @throws SQLException
      */
-    protected String getPasswordFromUsername(String username) throws SQLException {
-
+    public ResultSet getPasswordFromUsername(String username) throws SQLException {
         Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery(String.format("Select PASSWORT FROM USER WHERE username = '%s'", username));
-        rs.next();
-        return rs.getString("passwort");
+        return rs;
     }
 }

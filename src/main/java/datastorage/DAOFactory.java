@@ -23,6 +23,10 @@ public class DAOFactory {
         return new PatientDAO(ConnectionBuilder.getConnection());
     }
 
+    public UserDAO createUserDAO() {
+        return new UserDAO(ConnectionBuilder.getConnection());
+    }
+
     public LockedPatientDAO createLockedPatientDAO() {
         return new LockedPatientDAO(ConnectionBuilder.getConnection());
     }
