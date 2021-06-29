@@ -5,9 +5,10 @@ public class User {
     private String username;
     private String password;
 
-    public User(String username, String password) {
+    public User(String username, String password, long caregiverID) {
         this.username = username;
         this.password = password;
+        this.caregiverID = caregiverID;
     }
 
     public String getUsername() {

@@ -32,7 +32,7 @@ public class UserDAO extends DAOimp<User> {
     @Override
     protected User getInstanceFromResultSet(ResultSet result) throws SQLException {
         User u;
-        u = new User(result.getString(1), result.getString(2));
+        u = new User(result.getString(1), result.getString(2), result.getLong(3));
         return u;
     }
 
@@ -53,7 +53,6 @@ public class UserDAO extends DAOimp<User> {
 
     @Override
     protected String getDeleteStatementString(long key) {
-
         return String.format("Delete FROM USER WHERE username = %d", key);
     }
 

@@ -10,9 +10,9 @@
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@Application.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginViewController">
     <center>
         <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <PasswordField fx:id="passwordField" layoutX="210.0" layoutY="213.0" promptText="Passwort" />
             <TextField fx:id="usernameField" layoutX="210.0" layoutY="187.0" promptText="Benutzername" />
-            <Button layoutX="260.0" layoutY="253.0" mnemonicParsing="false" onAction="#handleLoginButton" text="Login" />
+            <PasswordField fx:id="passwordField" layoutX="210.0" layoutY="213.0" promptText="Passwort" />
+            <Button fx:id="loginButton" layoutX="260.0" layoutY="253.0" mnemonicParsing="false" onAction="#handleLoginButton" text="Login" />
             <Text fx:id="errorTextField" fill="RED" layoutX="260.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" />
         </AnchorPane>
     </center>
