@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Patients live in a NURSING home and are treated by nurses.
+ * Patients live in a NURSING home and are treated by caregivers.
  */
 public class Patient extends Person {
     private long pid;
