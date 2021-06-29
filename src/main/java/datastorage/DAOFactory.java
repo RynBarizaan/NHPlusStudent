@@ -26,4 +26,8 @@ public class DAOFactory {
     public LockedPatientDAO createLockedPatientDAO() {
         return new LockedPatientDAO(ConnectionBuilder.getConnection());
     }
+
+    public CaregiverDAO createCaregiverDAO() {
+        return new CaregiverDAO(ConnectionBuilder.getConnection());
+    }
 }
