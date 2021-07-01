@@ -159,7 +159,7 @@ public class AllPatientController {
         DeleteHandler deleteHandler;
         deleteHandler = new DeleteHandler();
         try {
-            deleteHandler.checkForCertainTime();
+            deleteHandler.checkForCertainLockedTime();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

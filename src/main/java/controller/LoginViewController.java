@@ -22,7 +22,6 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.hsqldb.HsqlException;
 
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;

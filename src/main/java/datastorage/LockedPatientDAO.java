@@ -114,7 +114,7 @@ public class LockedPatientDAO extends DAOimp<LockedPatient> {
      */
     public ResultSet getResultSetFromAll() throws SQLException {
         Statement st = conn.createStatement();
-        ResultSet rs = st.executeQuery("SELECT TODELETEDATE FROM LOCKEDPATIENT");
+        ResultSet rs = st.executeQuery("SELECT PID, TODELETEDATE FROM LOCKEDPATIENT");
         return rs;
     }
 
