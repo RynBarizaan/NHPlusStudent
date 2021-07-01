@@ -2,25 +2,32 @@ package utils;
 
 import datastorage.DAOFactory;
 import datastorage.LockedPatientDAO;
-import model.LockedPatient;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.List;
 
 public class DeleteHandler {
+    private final Logger LOGGER = LogManager.getLogger(DeleteHandler.class, StringFormatterMessageFactory.INSTANCE);
 
     private LockedPatientDAO lockedDao;
 
-    public void checkForCertainTime() throws SQLException {
+    public void checkForCertainLockedTime() throws SQLException {
         lockedDao = DAOFactory.getDAOFactory().createLockedPatientDAO();
-        try (ResultSet lockedPatientRs = lockedDao.getResultSetFromAll()) {
+        try{
+            ResultSet lockedPatientRs = lockedDao.getResultSetFromAll();
             while (lockedPatientRs.next()) {
-                if (lockedPatientRs.getString("TODELETEDATE").toString() == LocalDate.now().toString()) {
-                    deleteTenYearsOldPatient(lockedPatientRs.getLong("PID"));
+                LOGGER.info("Ist Datum richtig %s = %s", lockedPatientRs.getString(2), LocalDate.now().toString());
+                if (lockedPatientRs.getString(2).equals(LocalDate.now().toString())) {
+                    LOGGER.info("Datum ist richtig %s = %s", lockedPatientRs.getString(2), LocalDate.now().toString());
+                    deleteTenYearsOldPatient(lockedPatientRs.getInt(1));
+                    LOGGER.info("Patient mit PID %s", lockedPatientRs.getInt(1));
                 }
             }
+        }catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
