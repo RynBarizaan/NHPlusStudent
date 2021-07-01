@@ -35,9 +35,8 @@ public class TreatmentDAO extends DAOimp<Treatment> {
         LocalDate date = DateConverter.convertStringToLocalDate(result.getString(3));
         LocalTime begin = DateConverter.convertStringToLocalTime(result.getString(4));
         LocalTime end = DateConverter.convertStringToLocalTime(result.getString(5));
-        Treatment m = new Treatment(result.getLong(1), result.getLong(2),
+        return new Treatment(result.getLong(1), result.getLong(2),
                 date, begin, end, result.getString(6), result.getString(7));
-        return m;
     }
 
     @Override
@@ -47,8 +46,8 @@ public class TreatmentDAO extends DAOimp<Treatment> {
 
     @Override
     protected ArrayList<Treatment> getListFromResultSet(ResultSet result) throws SQLException {
-        ArrayList<Treatment> list = new ArrayList<Treatment>();
-        Treatment t = null;
+        ArrayList<Treatment> list = new ArrayList<>();
+        Treatment t;
         while (result.next()) {
             LocalDate date = DateConverter.convertStringToLocalDate(result.getString(3));
             LocalTime begin = DateConverter.convertStringToLocalTime(result.getString(4));
@@ -74,8 +73,7 @@ public class TreatmentDAO extends DAOimp<Treatment> {
     }
 
     public List<Treatment> readTreatmentsByPid(long pid) throws SQLException {
-        ArrayList<Treatment> list = new ArrayList<Treatment>();
-        Treatment object = null;
+        ArrayList<Treatment> list;
         Statement st = conn.createStatement();
         ResultSet result = st.executeQuery(getReadAllTreatmentsOfOnePatientByPid(pid));
         list = getListFromResultSet(result);

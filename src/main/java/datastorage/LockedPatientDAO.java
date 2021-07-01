@@ -1,12 +1,12 @@
 package datastorage;
 
 import model.LockedPatient;
-import model.Patient;
 import utils.DateConverter;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -14,7 +14,7 @@ public class LockedPatientDAO extends DAOimp<LockedPatient> {
 
     /**
      * constructs Object. Calls the Constructor from <code>DAOImp</code> to store the connection.
-     * @param conn
+     * @param conn übergibt die verbindung zur Datenbank
      */
     public LockedPatientDAO(Connection conn) { super(conn); }
 
@@ -46,7 +46,7 @@ public class LockedPatientDAO extends DAOimp<LockedPatient> {
      */
     @Override
     protected LockedPatient getInstanceFromResultSet(ResultSet result) throws SQLException {
-        LockedPatient p = null;
+        LockedPatient p;
         LocalDate date = DateConverter.convertStringToLocalDate(result.getString(4));
         LocalDate endDate = DateConverter.convertStringToLocalDate(result.getString(6));
         p = new LockedPatient(result.getInt(1), result.getString(2),
@@ -72,7 +72,7 @@ public class LockedPatientDAO extends DAOimp<LockedPatient> {
     @Override
     protected ArrayList<LockedPatient> getListFromResultSet(ResultSet result) throws SQLException {
         ArrayList<LockedPatient> list = new ArrayList<>();
-        LockedPatient p = null;
+        LockedPatient p;
         while (result.next()) {
             LocalDate date = DateConverter.convertStringToLocalDate(result.getString(4));
             LocalDate endDate = DateConverter.convertStringToLocalDate(result.getString(6));
@@ -105,6 +105,17 @@ public class LockedPatientDAO extends DAOimp<LockedPatient> {
     @Override
     protected String getDeleteStatementString(long key) {
         return String.format("Delete FROM lockedpatient WHERE pid=%d", key);
+    }
+
+    /**
+     *
+     * @return
+     * @throws SQLException
+     */
+    public ResultSet getResultSetFromAll() throws SQLException {
+        Statement st = conn.createStatement();
+        ResultSet rs = st.executeQuery("SELECT TODELETEDATE FROM LOCKEDPATIENT");
+        return rs;
     }
 
 }
