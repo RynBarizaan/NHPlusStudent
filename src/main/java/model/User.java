@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * User sind Benutzer die sich in die Oberfläche einloggen können
+ */
 public class User {
     private long caregiverID;
     private String username;

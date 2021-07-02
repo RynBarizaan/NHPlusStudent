@@ -12,6 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+/**
+ * Klasse zum löschen von Patienten und Treatments
+ */
 public class DeleteHandler {
     private final Logger LOGGER = LogManager.getLogger(DeleteHandler.class, StringFormatterMessageFactory.INSTANCE);
 

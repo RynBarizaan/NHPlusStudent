@@ -23,6 +23,9 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Controller für die LoginView
+ */
 public class LoginViewController {
 
     @FXML
