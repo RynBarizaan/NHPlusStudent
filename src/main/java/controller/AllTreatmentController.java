@@ -18,7 +18,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * The <code>AllTreatmentController</code> contains the entire logic of the treatment view. It determines which data is displayed and how to react to events.
+ */
 public class AllTreatmentController {
     @FXML
     private TableView<Treatment> tableView;
@@ -50,6 +52,9 @@ public class AllTreatmentController {
             FXCollections.observableArrayList();
     private ArrayList<Patient> patientList;
 
+    /**
+     * Initializes the corresponding fields. Is called as soon as the corresponding FXML file is to be displayed.
+     */
     public void initialize() {
         readAllAndShowInTableView();
         comboBox.setItems(myComboBoxData);
