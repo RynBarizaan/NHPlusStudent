@@ -44,7 +44,7 @@ public class TreatmentController {
     private Button btnCancel;
 
     private AllTreatmentController controller;
-    private ObservableList<String> myComboBoxData =
+    private final ObservableList<String> myComboBoxData =
             FXCollections.observableArrayList();
     private Stage stage;
     private Patient patient;
@@ -113,9 +113,9 @@ public class TreatmentController {
     }
 
     private Caregiver searchInList(String surname){
-        for (int i =0; i<this.caregiverList.size();i++){
-            if(this.caregiverList.get(i).getSurname().equals(surname)){
-                return this.caregiverList.get(i);
+        for (Caregiver value : this.caregiverList) {
+            if (value.getSurname().equals(surname)) {
+                return value;
             }
         }
         return null;

@@ -5,6 +5,7 @@ import utils.DateConverter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -16,6 +17,7 @@ public class PatientDAO extends DAOimp<Patient> {
     /**
      * constructs Onbject. Calls the Constructor from <code>DAOImp</code> to store the connection.
      * @param conn
+     *  Bekommt die Verindung zur Datenbank übergeben
      */
     public PatientDAO(Connection conn) {
         super(conn);
@@ -49,7 +51,7 @@ public class PatientDAO extends DAOimp<Patient> {
      */
     @Override
     protected Patient getInstanceFromResultSet(ResultSet result) throws SQLException {
-        Patient p = null;
+        Patient p;
         LocalDate date = DateConverter.convertStringToLocalDate(result.getString(4));
         p = new Patient(result.getInt(1), result.getString(2),
                 result.getString(3), date, result.getString(5),
@@ -73,8 +75,8 @@ public class PatientDAO extends DAOimp<Patient> {
      */
     @Override
     protected ArrayList<Patient> getListFromResultSet(ResultSet result) throws SQLException {
-        ArrayList<Patient> list = new ArrayList<Patient>();
-        Patient p = null;
+        ArrayList<Patient> list = new ArrayList<>();
+        Patient p;
         while (result.next()) {
             LocalDate date = DateConverter.convertStringToLocalDate(result.getString(4));
             p = new Patient(result.getInt(1), result.getString(2),
@@ -105,5 +107,15 @@ public class PatientDAO extends DAOimp<Patient> {
     @Override
     protected String getDeleteStatementString(long key) {
         return String.format("Delete FROM patient WHERE pid=%d", key);
+    }
+
+    /**
+     * Gibt alle vorhandenen PIDs als Resultset zurück
+     * @return ResultSet von PIDs
+     * @throws SQLException
+     */
+    public ResultSet getAllPatientsPIDByRS() throws SQLException {
+        Statement st = conn.createStatement();
+        return st.executeQuery("Select PID FROM PATIENT");
     }
 }

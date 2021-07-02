@@ -1,11 +1,8 @@
 package controller;
 
-import datastorage.ConnectionBuilder;
 import datastorage.DAOFactory;
 import datastorage.UserDAO;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -14,12 +11,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import org.hsqldb.HsqlException;
 
 import java.io.IOException;
@@ -27,8 +20,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class LoginViewController {
-    @FXML
-    private BorderPane mainBorderPane;
 
     @FXML
     private TextField usernameField;
@@ -39,30 +30,29 @@ public class LoginViewController {
     @FXML
     private Text errorTextField;
 
-    private Stage primaryStage;
-
-    private UserDAO dao;
-
-    private ResultSet rs = null;
 
     @FXML
     Button loginButton;
 
 
     /**
-     * Wenn der Login Button betätigt wird wird das eingebene Passwort mit dem, in der Datenbank gesepicherten PAsswort,
-     * passend zum Benutzernamen verglichen. Ist das PAsswort richtig wird <code>openMainWindow</code> ausgeführt.
-     * Sollte das PAsswort falsch sein, wird ein error ausgegeben.
+     * Wenn der Login Button betätigt wird wird das eingegebene Passwort mit dem, in der Datenbank gespeicherten Passwort,
+     * passend zum Benutzernamen verglichen. Ist das Passwort richtig wird <code>openMainWindow</code> ausgeführt.
+     * Sollte das Passwort falsch sein, wird ein error ausgegeben.
      *
      * @param actionEvent
+     *  CLick auf den Loginbutton
      * @throws SQLException
+     *  SQL Exception kann ausgegeben werden
      */
     public void handleLoginButton(ActionEvent actionEvent) throws SQLException {
-        this.dao = DAOFactory.getDAOFactory().createUserDAO();
-        this.rs = this.dao.getPasswordFromUsername(this.usernameField.getText());
+        UserDAO dao = DAOFactory.getDAOFactory().createUserDAO();
+        ResultSet rs = dao.getPasswordFromUsername(this.usernameField.getText());
         try {
             rs.next();
-            if (this.rs.getString("passwort").equals(this.passwordField.getText())) {
+            if (rs.getString("passwort").equals(this.passwordField.getText())) {
+                Stage stage = (Stage) this.loginButton.getScene().getWindow();
+                stage.close();
                 openMainWindow(actionEvent);
             } else {
                 this.errorTextField.setText("Benutzername oder Passwort falsch");
@@ -70,6 +60,7 @@ public class LoginViewController {
         } catch (HsqlException | SQLException e) {
             this.errorTextField.setText("Benutzername oder Passwort falsch");
         }
+
     }
 
 
@@ -83,7 +74,7 @@ public class LoginViewController {
             root = loader.load();
             Stage stage = new Stage();
             stage.setTitle("NHPLus");
-            stage.setScene(new Scene(root, 900, 600));
+            stage.setScene(new Scene(root));
             stage.show();
             // Hide this current window (if this is what you want)
             ((Node) (actionEvent.getSource())).getScene().getWindow().hide();

@@ -2,7 +2,6 @@ package controller;
 
 import datastorage.CaregiverDAO;
 import datastorage.DAOFactory;
-import datastorage.PatientDAO;
 import datastorage.TreatmentDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,7 +36,7 @@ public class NewTreatmentController {
     private ComboBox<String> comboBox;
 
     private AllTreatmentController controller;
-    private ObservableList<String> myComboBoxData =
+    private final ObservableList<String> myComboBoxData =
             FXCollections.observableArrayList();
     private Patient patient;
     private ArrayList<Caregiver> caregiverList;
@@ -91,9 +90,9 @@ public class NewTreatmentController {
     }
 
     private Caregiver searchInList(String surname){
-        for (int i =0; i<this.caregiverList.size();i++){
-            if(this.caregiverList.get(i).getSurname().equals(surname)){
-                return this.caregiverList.get(i);
+        for (Caregiver caregiver : this.caregiverList) {
+            if (caregiver.getSurname().equals(surname)) {
+                return caregiver;
             }
         }
         return null;

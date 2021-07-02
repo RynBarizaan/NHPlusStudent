@@ -43,31 +43,32 @@ public class AllTreatmentController {
     @FXML
     private Button btnDelete;
 
-    private ObservableList<Treatment> tableviewContent =
+    private final ObservableList<Treatment> tableviewContent =
             FXCollections.observableArrayList();
     private TreatmentDAO dao;
-    private ObservableList<String> myComboBoxData =
+    private final ObservableList<String> myComboBoxData =
             FXCollections.observableArrayList();
     private ArrayList<Patient> patientList;
-    private Main main;
 
     public void initialize() {
         readAllAndShowInTableView();
         comboBox.setItems(myComboBoxData);
         comboBox.getSelectionModel().select(0);
-        this.main = main;
 
-        this.colID.setCellValueFactory(new PropertyValueFactory<Treatment, Integer>("tid"));
-        this.colPid.setCellValueFactory(new PropertyValueFactory<Treatment, Integer>("pid"));
-        this.colCid.setCellValueFactory(new PropertyValueFactory<Treatment, Integer>("cid"));
-        this.colDate.setCellValueFactory(new PropertyValueFactory<Treatment, String>("date"));
-        this.colBegin.setCellValueFactory(new PropertyValueFactory<Treatment, String>("begin"));
-        this.colEnd.setCellValueFactory(new PropertyValueFactory<Treatment, String>("end"));
-        this.colDescription.setCellValueFactory(new PropertyValueFactory<Treatment, String>("description"));
+        this.colID.setCellValueFactory(new PropertyValueFactory<>("tid"));
+        this.colPid.setCellValueFactory(new PropertyValueFactory<>("pid"));
+        this.colCid.setCellValueFactory(new PropertyValueFactory<>("cid"));
+        this.colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        this.colBegin.setCellValueFactory(new PropertyValueFactory<>("begin"));
+        this.colEnd.setCellValueFactory(new PropertyValueFactory<>("end"));
+        this.colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         this.tableView.setItems(this.tableviewContent);
         createComboBoxData();
     }
 
+    /**
+     * calls readAll in {@link TreatmentDAO} and shows treatments in the table
+     */
     public void readAllAndShowInTableView() {
         this.tableviewContent.clear();
         comboBox.getSelectionModel().select(0);
@@ -127,9 +128,9 @@ public class AllTreatmentController {
     }
 
     private Patient searchInList(String surname){
-        for (int i =0; i<this.patientList.size();i++){
-            if(this.patientList.get(i).getSurname().equals(surname)){
-                return this.patientList.get(i);
+        for (Patient patient : this.patientList) {
+            if (patient.getSurname().equals(surname)) {
+                return patient;
             }
         }
         return null;

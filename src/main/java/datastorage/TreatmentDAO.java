@@ -72,6 +72,12 @@ public class TreatmentDAO extends DAOimp<Treatment> {
         return String.format("Delete FROM treatment WHERE tid= %d", key);
     }
 
+    /**
+     * TODO:
+     * @param pid
+     * @return
+     * @throws SQLException
+     */
     public List<Treatment> readTreatmentsByPid(long pid) throws SQLException {
         ArrayList<Treatment> list;
         Statement st = conn.createStatement();
@@ -80,12 +86,34 @@ public class TreatmentDAO extends DAOimp<Treatment> {
         return list;
     }
 
+    /**
+     * Diese Methode gibt eine SQLQuery für alle Treatments von einem Patienten zurück
+     * @param pid
+     * @return
+     */
     private String getReadAllTreatmentsOfOnePatientByPid(long pid){
         return String.format("SELECT * FROM treatment WHERE pid = %d", pid);
     }
 
+    /**
+     *  löscht ein Treatment abhängig von der PID
+     * @param key Die ID des Patienten
+     * @throws SQLException
+     */
     public void deleteByPid(long key) throws SQLException {
         Statement st = conn.createStatement();
         st.executeUpdate(String.format("Delete FROM treatment WHERE pid= %d", key));
+    }
+
+    /**
+     *  gibt alle Daten für die Treatments eines einzelnen Patienten,
+     *  in absteigender Reihenfolge, als Result set aus.
+     * @param key ID des Patienten
+     * @return ResultSet mit allen Treatments eines Patienten
+     * @throws SQLException
+     */
+    public ResultSet getPatientsByTreatmentDateDesc(long key) throws SQLException {
+        Statement st = conn.createStatement();
+        return st.executeQuery(String.format("SELECT TREATMENT_DATE FROM TREATMENT WHERE PID = '%d' ORDER BY TREATMENT_DATE DESC", key));
     }
 }

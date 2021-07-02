@@ -65,7 +65,7 @@ public class AllPatientController {
      * Initializes the corresponding fields. Is called as soon as the corresponding FXML file is to be displayed.
      */
     public void initialize() {
-        readAllAndShowInTableView();
+        readAllAndShowInTableViewWithDelete();
 
         this.colID.setCellValueFactory(new PropertyValueFactory<>("pid"));
 
@@ -92,56 +92,62 @@ public class AllPatientController {
 
     /**
      * handles new firstname value
+     *
      * @param event event including the value that a user entered into the cell
      */
     @FXML
-    public void handleOnEditFirstname(TableColumn.CellEditEvent<Patient, String> event){
+    public void handleOnEditFirstname(TableColumn.CellEditEvent<Patient, String> event) {
         event.getRowValue().setFirstName(event.getNewValue());
         doUpdate(event);
     }
 
     /**
      * handles new surname value
+     *
      * @param event event including the value that a user entered into the cell
      */
     @FXML
-    public void handleOnEditSurname(TableColumn.CellEditEvent<Patient, String> event){
+    public void handleOnEditSurname(TableColumn.CellEditEvent<Patient, String> event) {
         event.getRowValue().setSurname(event.getNewValue());
         doUpdate(event);
     }
 
     /**
      * handles new birthdate value
+     *
      * @param event event including the value that a user entered into the cell
      */
     @FXML
-    public void handleOnEditDateOfBirth(TableColumn.CellEditEvent<Patient, String> event){
+    public void handleOnEditDateOfBirth(TableColumn.CellEditEvent<Patient, String> event) {
         event.getRowValue().setDateOfBirth(event.getNewValue());
         doUpdate(event);
     }
 
     /**
      * handles new carelevel value
+     *
      * @param event event including the value that a user entered into the cell
      */
     @FXML
-    public void handleOnEditCareLevel(TableColumn.CellEditEvent<Patient, String> event){
+    public void handleOnEditCareLevel(TableColumn.CellEditEvent<Patient, String> event) {
         event.getRowValue().setCareLevel(event.getNewValue());
         doUpdate(event);
     }
 
     /**
      * handles new roomnumber value
+     *
      * @param event event including the value that a user entered into the cell
      */
     @FXML
-    public void handleOnEditRoomnumber(TableColumn.CellEditEvent<Patient, String> event){
+    public void handleOnEditRoomnumber(TableColumn.CellEditEvent<Patient, String> event) {
         event.getRowValue().setRoomnumber(event.getNewValue());
         doUpdate(event);
     }
 
     /**
      * updates a patient by calling the update-Method in the {@link PatientDAO}
+     *
      * @param t row to be updated by the user (includes the patient)
      */
     private void doUpdate(TableColumn.CellEditEvent<Patient, String> t) {
@@ -156,13 +162,6 @@ public class AllPatientController {
      * calls readAll in {@link PatientDAO} and shows patients in the table
      */
     private void readAllAndShowInTableView() {
-        DeleteHandler deleteHandler;
-        deleteHandler = new DeleteHandler();
-        try {
-            deleteHandler.checkForCertainLockedTime();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
         this.tableviewContent.clear();
         this.patientDao = DAOFactory.getDAOFactory().createPatientDAO();
         List<Patient> allPatients;
@@ -176,6 +175,29 @@ public class AllPatientController {
         }
     }
 
+    /**
+     * calls readAll in {@link PatientDAO} and shows patients in the table
+     * but deletes Patients that will be locked or older than 10yrs
+     */
+    @FXML
+    private void readAllAndShowInTableViewWithDelete() {
+        DeleteHandler deleteHandler;
+        deleteHandler = new DeleteHandler();
+        try {
+            deleteHandler.deleteLockedPatientAfter10Years();
+            deleteHandler.autoDeletePatientsAfterLastTreatment();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        this.readAllAndShowInTableView();
+    }
+
+    /**
+     * Wenn der Lock-Button gedrückt wird, wird diese Methode aufgerufen,
+     * Sie löscht einen Patienten aus der Patienten Tabelle und verschiebt ihn in die
+     * Lockedpatient Tabelle.
+     * @throws SQLException
+     */
     @FXML
     public void handleLockPatient() throws SQLException {
         patientDao = DAOFactory.getDAOFactory().createPatientDAO();
@@ -187,22 +209,6 @@ public class AllPatientController {
         treatmentDao.deleteByPid(selectedItem.getPid());
         patientDao.deleteById(selectedItem.getPid());
         this.readAllAndShowInTableView();
-    }
-
-    /**
-     * handles a delete-click-event. Calls the delete methods in the {@link PatientDAO} and {@link TreatmentDAO}
-     */
-    @FXML
-    public void handleDeleteRow() {
-        TreatmentDAO tDao = DAOFactory.getDAOFactory().createTreatmentDAO();
-        Patient selectedItem = this.tableView.getSelectionModel().getSelectedItem();
-        try {
-            tDao.deleteByPid(selectedItem.getPid());
-            patientDao.deleteById(selectedItem.getPid());
-            this.tableView.getItems().remove(selectedItem);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     /**

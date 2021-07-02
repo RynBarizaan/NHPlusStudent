@@ -1,16 +1,12 @@
 package datastorage;
 
-import model.Patient;
 import model.User;
-import utils.DateConverter;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 public class UserDAO extends DAOimp<User> {
 
@@ -42,7 +38,7 @@ public class UserDAO extends DAOimp<User> {
     }
 
     @Override
-    protected ArrayList<User> getListFromResultSet(ResultSet set) throws SQLException {
+    protected ArrayList<User> getListFromResultSet(ResultSet set) {
         return null;
     }
 
@@ -61,11 +57,10 @@ public class UserDAO extends DAOimp<User> {
      *
      * @param username der Username für den das PAsswort gefunden werden soll
      * @return Das Passwort passend zum Usernamen.
-     * @throws SQLException
+     * @throws SQLException wirft eine SQL Exception
      */
     public ResultSet getPasswordFromUsername(String username) throws SQLException {
         Statement st = conn.createStatement();
-        ResultSet rs = st.executeQuery(String.format("Select PASSWORT FROM USER WHERE username = '%s'", username));
-        return rs;
+        return st.executeQuery(String.format("Select PASSWORT FROM USER WHERE username = '%s'", username));
     }
 }
