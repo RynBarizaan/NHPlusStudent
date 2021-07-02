@@ -59,10 +59,8 @@ public class DeleteHandler {
                     try {
                         treatmentRS.next();
                         if (DateConverter.convertStringToLocalDate(treatmentRS.getString(1)).plusYears(10).isBefore(LocalDate.now()) || DateConverter.convertStringToLocalDate(treatmentRS.getString(1)).plusYears(10).isEqual(LocalDate.now())) {
-                            System.out.println(treatmentRS.getString(1) + "==" + LocalDate.now().minusYears(10).toString());
                             treatmentDao.deleteByPid(PID);
                             patientDAO.deleteById(PID);
-                            System.out.println("aaaa");
                         }
                     } catch (SQLException e) {
                     }
