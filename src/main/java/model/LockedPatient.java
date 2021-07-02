@@ -3,7 +3,7 @@ package model;
 import java.time.LocalDate;
 
 /**
- * Patients live in a NURSING home and are treated by nurses.
+ * Locked patients are stored in a separate Database than patients
  */
 
 public class LockedPatient extends Patient {

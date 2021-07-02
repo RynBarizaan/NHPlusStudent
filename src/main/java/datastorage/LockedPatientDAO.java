@@ -10,6 +10,9 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * Implements the Interface <code>DAOImp</code>. Overrides methods to generate specific locked patient-SQL-queries.
+ */
 public class LockedPatientDAO extends DAOimp<LockedPatient> {
 
     /**

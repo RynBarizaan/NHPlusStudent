@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+/**
+ * Implements the Interface <code>DAOImp</code>. Overrides methods to generate specific user-SQL-queries.
+ */
 public class UserDAO extends DAOimp<User> {
 
     public UserDAO(Connection conn) {

@@ -127,7 +127,7 @@ public class AllCaregiverController {
      */
     @FXML
     public void handleOnSwitchActive() {
-
+        // TODO implement method
     }
 
     /**

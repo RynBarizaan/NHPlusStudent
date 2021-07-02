@@ -42,6 +42,12 @@ public class NewTreatmentController {
     private ArrayList<Caregiver> caregiverList;
     private Stage stage;
 
+    /**
+     *
+     * @param controller
+     * @param stage
+     * @param patient
+     */
     public void initialize(AllTreatmentController controller, Stage stage, Patient patient) {
         this.controller= controller;
         this.patient = patient;
@@ -52,6 +58,9 @@ public class NewTreatmentController {
         createComboBoxData();
     }
 
+    /**
+     * sets the label for the patients firstname and surname as String
+     */
     private void showPatientData(){
         this.lblFirstname.setText(patient.getFirstName());
         this.lblSurname.setText(patient.getSurname());
@@ -71,22 +80,36 @@ public class NewTreatmentController {
 
     @FXML
     public void handleAdd(){
+        try {
+            String c = this.comboBox.getSelectionModel().getSelectedItem();
+            Caregiver caregiver = searchInList(c);
+            LocalDate date = this.datepicker.getValue();
+            String s_begin = txtBegin.getText();
+            LocalTime begin = DateConverter.convertStringToLocalTime(txtBegin.getText());
+            LocalTime end = DateConverter.convertStringToLocalTime(txtEnd.getText());
+            String description = txtDescription.getText();
+            String remarks = taRemarks.getText();
+            Treatment treatment = new Treatment(patient.getPid(), caregiver.getCid(), date,
+                    begin, end, description, remarks);
+            createTreatment(treatment);
+            controller.readAllAndShowInTableView();
+            stage.close();
+        }
+        catch (NullPointerException e) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            alert.setHeaderText("Pflegekraft für die Behandlung fehlt!");
+            alert.setContentText("Wählen Sie über die Combobox einen Pflegekraft aus!");
+            alert.showAndWait();
+        }
+        catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            alert.setHeaderText("Felder wurden nicht korrekt ausgefüllt!");
+            alert.setContentText("Bitte füllen Sie alle Felder komplett und mit gültigen Werten aus!");
+            alert.showAndWait();
+        }
 
-        String c = this.comboBox.getSelectionModel().getSelectedItem();
-        System.out.println(c);
-        Caregiver caregiver = searchInList(c);
-        System.out.println(caregiver.getCid());
-        LocalDate date = this.datepicker.getValue();
-        String s_begin = txtBegin.getText();
-        LocalTime begin = DateConverter.convertStringToLocalTime(txtBegin.getText());
-        LocalTime end = DateConverter.convertStringToLocalTime(txtEnd.getText());
-        String description = txtDescription.getText();
-        String remarks = taRemarks.getText();
-        Treatment treatment = new Treatment(patient.getPid(), caregiver.getCid(), date,
-                begin, end, description, remarks);
-        createTreatment(treatment);
-        controller.readAllAndShowInTableView();
-        stage.close();
     }
 
     private Caregiver searchInList(String surname){
